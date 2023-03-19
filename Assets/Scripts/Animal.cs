@@ -16,9 +16,13 @@ public abstract class Animal : MonoBehaviour
     [SerializeField]
     private float fertilePenalty;
     [SerializeField]
+    protected float eatSpeedMult;
+    [SerializeField]
     private float litterVariance;
     [SerializeField]
     private float maxAge;
+    [SerializeField]
+    private float softMaxSpeed;
     [SerializeField]
     private float bioMutRate;
     [SerializeField]
@@ -44,20 +48,27 @@ public abstract class Animal : MonoBehaviour
     [SerializeField]
     protected float minReproAge;
 
+    [SerializeField]
+    private bool forceRepro;
     protected FFNN brain;
     private bool hasInit = false;
+    [SerializeField]
     private GameObject babyPrefab;
-    private Rigidbody rb;
+    protected Rigidbody rb;
 
     protected abstract void think();
     protected abstract void die();
+    protected abstract void eat();
 
     public void init(FFNN Brain = null, GameObject BabyPrefab = null, float startHunger = 0, float startReproUrge = 0, float startAge = 0)
     {
         hunger = startHunger;
         age = startAge;
         reproUrge = startReproUrge;
-        babyPrefab = BabyPrefab;
+        if (BabyPrefab != null)
+        {
+            babyPrefab = BabyPrefab;
+        }
 
         if(brain != null)
         {
@@ -69,6 +80,7 @@ public abstract class Animal : MonoBehaviour
         }
 
         rb = GetComponent<Rigidbody>();
+        rb.maxLinearVelocity = speed * softMaxSpeed;
 
         hasInit = true;
     }
@@ -88,6 +100,11 @@ public abstract class Animal : MonoBehaviour
     {
         updateBio();
         think();
+        if (forceRepro)
+        {
+            forceRepro = false;
+            reproduce();
+        }
     }
 
     private void mutateVals()
