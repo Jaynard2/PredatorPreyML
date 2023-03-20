@@ -5,6 +5,7 @@ using MathNet.Numerics.LinearAlgebra;
 
 public class Prey : Animal
 {
+    [SerializeField]
     private float maxStationarySpeed;
     protected override void die()
     {
@@ -15,6 +16,10 @@ public class Prey : Animal
     protected override void eat()
     {
         hunger -= eatSpeedMult * speed;
+        if(hunger < 0)
+        {
+            hunger = 0;
+        }
     }
 
     protected override void think()

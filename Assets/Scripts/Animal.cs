@@ -152,6 +152,7 @@ public abstract class Animal : MonoBehaviour
             Animal currBaby = Instantiate(babyPrefab, transform.position + new Vector3(0, 2 * i, 0), Quaternion.identity).GetComponent<Animal>();
             FFNN newBrain = new FFNN(brain);
             newBrain.mutate(1f, brainMutRate);
+            currBaby.mutateVals();
             currBaby.init(newBrain, babyPrefab, 100 - sharedFood);
         }
 

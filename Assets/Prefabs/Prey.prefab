@@ -34,7 +34,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7240618842451507015
 MeshFilter:
@@ -108,7 +108,7 @@ Rigidbody:
   m_GameObject: {fileID: 7240618842451507011}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 5
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
@@ -128,14 +128,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedMult: 5
-  speedPenalty: 0
-  movePenalty: 0
-  fertilePenalty: 0
-  eatSpeedMult: 1
+  speedPenalty: 0.1
+  movePenalty: 0.01
+  fertilePenalty: 0.2
+  eatSpeedMult: 5
   litterVariance: 1
   maxAge: 100
   softMaxSpeed: 5
-  bioMutRate: 0.001
+  bioMutRate: 0.5
   brainMutRate: 0.002
   layerSizes: 030000000400000005000000
   hunger: 0
@@ -144,6 +144,7 @@ MonoBehaviour:
   speed: 3
   dReproUrge: 1
   avgLitterSize: 2
-  minReproAge: 25
+  minReproAge: 10
   forceRepro: 0
   babyPrefab: {fileID: 7240618842451507011}
+  maxStationarySpeed: 2
