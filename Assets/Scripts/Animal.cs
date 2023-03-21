@@ -24,6 +24,8 @@ public abstract class Animal : MonoBehaviour
     [SerializeField]
     private float softMaxSpeed;
     [SerializeField]
+    private float drag;
+    [SerializeField]
     private float bioMutRate;
     [SerializeField]
     private float brainMutRate;
@@ -60,7 +62,7 @@ public abstract class Animal : MonoBehaviour
     protected abstract void die();
     protected abstract void eat();
 
-    public void init(FFNN Brain = null, GameObject BabyPrefab = null, float startHunger = 0, float startReproUrge = 0, float startAge = 0)
+    public void init(FFNN Brain = null, float startHunger = 0, float startReproUrge = 0, GameObject BabyPrefab = null, float startAge = 0)
     {
         hunger = startHunger;
         age = startAge;
@@ -98,6 +100,10 @@ public abstract class Animal : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Vector3 currVel = rb.velocity;
+        currVel /= drag;
+        currVel.y = rb.velocity.y;
+        rb.velocity = currVel;
         updateBio();
         think();
         if (forceRepro)
@@ -153,7 +159,7 @@ public abstract class Animal : MonoBehaviour
             FFNN newBrain = new FFNN(brain);
             newBrain.mutate(1f, brainMutRate);
             currBaby.mutateVals();
-            currBaby.init(newBrain, babyPrefab, 100 - sharedFood);
+            currBaby.init(newBrain, 100 - sharedFood);
         }
 
         reproUrge = 0;
