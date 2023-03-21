@@ -35,7 +35,7 @@ public class FFNN
 
         weights = new Matrix<double>[other.weights.Length];
         biases = new Matrix<double>[other.weights.Length];
-        for (int i = 1; i < weights.Length; i++)
+        for (int i = 0; i < weights.Length; i++)
         {
             weights[i] = other.weights[i].Clone();
             biases[i] = other.biases[i].Clone();

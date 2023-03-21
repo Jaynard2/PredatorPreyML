@@ -16,9 +16,15 @@ public abstract class Animal : MonoBehaviour
     [SerializeField]
     private float fertilePenalty;
     [SerializeField]
+    protected float eatSpeedMult;
+    [SerializeField]
     private float litterVariance;
     [SerializeField]
     private float maxAge;
+    [SerializeField]
+    private float softMaxSpeed;
+    [SerializeField]
+    private float drag;
     [SerializeField]
     private float bioMutRate;
     [SerializeField]
@@ -44,20 +50,27 @@ public abstract class Animal : MonoBehaviour
     [SerializeField]
     protected float minReproAge;
 
+    [SerializeField]
+    private bool forceRepro;
     protected FFNN brain;
     private bool hasInit = false;
+    [SerializeField]
     private GameObject babyPrefab;
-    private Rigidbody rb;
+    protected Rigidbody rb;
 
     protected abstract void think();
     protected abstract void die();
+    protected abstract void eat();
 
-    public void init(FFNN Brain = null, GameObject BabyPrefab = null, float startHunger = 0, float startReproUrge = 0, float startAge = 0)
+    public void init(FFNN Brain = null, float startHunger = 0, float startReproUrge = 0, GameObject BabyPrefab = null, float startAge = 0)
     {
         hunger = startHunger;
         age = startAge;
         reproUrge = startReproUrge;
-        babyPrefab = BabyPrefab;
+        if (BabyPrefab != null)
+        {
+            babyPrefab = BabyPrefab;
+        }
 
         if(brain != null)
         {
@@ -69,6 +82,7 @@ public abstract class Animal : MonoBehaviour
         }
 
         rb = GetComponent<Rigidbody>();
+        rb.maxLinearVelocity = speed * softMaxSpeed;
 
         hasInit = true;
     }
@@ -86,8 +100,17 @@ public abstract class Animal : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Vector3 currVel = rb.velocity;
+        currVel /= drag;
+        currVel.y = rb.velocity.y;
+        rb.velocity = currVel;
         updateBio();
         think();
+        if (forceRepro)
+        {
+            forceRepro = false;
+            reproduce();
+        }
     }
 
     private void mutateVals()
@@ -135,7 +158,8 @@ public abstract class Animal : MonoBehaviour
             Animal currBaby = Instantiate(babyPrefab, transform.position + new Vector3(0, 2 * i, 0), Quaternion.identity).GetComponent<Animal>();
             FFNN newBrain = new FFNN(brain);
             newBrain.mutate(1f, brainMutRate);
-            currBaby.init(newBrain, babyPrefab, 100 - sharedFood);
+            currBaby.mutateVals();
+            currBaby.init(newBrain, 100 - sharedFood);
         }
 
         reproUrge = 0;
