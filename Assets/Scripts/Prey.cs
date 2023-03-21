@@ -25,14 +25,21 @@ public class Prey : Animal
     protected override void think()
     {
         //generate inputs
-        Matrix<double> inputs = Matrix<double>.Build.Dense(1, 3);
+        Matrix<double> inputs = Matrix<double>.Build.Dense(1, 6);
         inputs[0, 0] = age;
         inputs[0, 1] = hunger;
         inputs[0, 2] = reproUrge;
+        inputs[0, 3] = rb.velocity.x;
+        inputs[0, 4] = rb.velocity.z;
+        inputs[0, 5] = transform.eulerAngles.y;
 
         Matrix<double> outputs = brain.forward(inputs);
+
+        //rotate
+        transform.eulerAngles += new Vector3(0, speed*(2*(float)outputs[0, 0]-1), 0);
+
         //movement between -1 and 1
-        Vector3 movement = new Vector3((float)outputs[0, 0], (float)outputs[0, 1], (float)outputs[0, 2]);
+        Vector3 movement = new Vector3((float)outputs[0, 1], 0f, 0f);
         movement *= 2;
         movement += new Vector3(-1, -1, -1);
         move(movement);
@@ -44,13 +51,13 @@ public class Prey : Animal
         }
 
         //can't reproduce while eating
-        if(outputs[0, 3] > 0.5)
+        if(outputs[0, 2] > 0.5)
         {
             eat();
             return;
         }
 
-        if(outputs[0, 4] > 0.5)
+        if(outputs[0, 3] > 0.5)
         {
             reproduce();
         }

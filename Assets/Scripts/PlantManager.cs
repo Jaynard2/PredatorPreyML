@@ -2,21 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PopulationManager : MonoBehaviour
+public class PlantManager : MonoBehaviour
 {
     [SerializeField]
-    private float spawnRadius;
+    private Vector2 spawnArea;
     [SerializeField]
     private float spawnHeight;
     [SerializeField]
     private int initialPop;
     [SerializeField]
-    private GameObject preyPrefab;
+    private GameObject plantPrefab;
     // Start is called before the first frame update
     void Start()
     {
         Spawner spawner = gameObject.AddComponent<Spawner>();
-        spawner.circularSpawn(preyPrefab, initialPop, spawnRadius, spawnHeight);
+        spawner.rectSpawn(plantPrefab, initialPop, spawnArea, spawnHeight);
     }
 
     // Update is called once per frame
