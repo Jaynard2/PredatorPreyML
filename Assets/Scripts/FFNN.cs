@@ -9,20 +9,22 @@ public class FFNN
 {
     private Matrix<double>[] weights;
     private Matrix<double>[] biases;
+    private int[] layerSizes;
 
-    public FFNN(int[] layerSizes)
+    public FFNN(int[] LayerSizes)
     {
-        if(layerSizes == null || layerSizes.Length <= 1)
+        if(LayerSizes == null || LayerSizes.Length <= 1)
         {
             throw new System.Exception("Invalid network size");
         }
 
-        weights = new Matrix<double>[layerSizes.Length - 1];
-        biases = new Matrix<double>[layerSizes.Length - 1];
+        layerSizes = (int[])LayerSizes.Clone();
+        weights = new Matrix<double>[LayerSizes.Length - 1];
+        biases = new Matrix<double>[LayerSizes.Length - 1];
         for (int i = 0; i < weights.Length; i++)
         {
-            weights[i] = Matrix<double>.Build.Random(layerSizes[i], layerSizes[i+1]);
-            biases[i] = Matrix<double>.Build.Random(1, layerSizes[i+1]);
+            weights[i] = Matrix<double>.Build.Random(LayerSizes[i], LayerSizes[i+1]);
+            biases[i] = Matrix<double>.Build.Random(1, LayerSizes[i+1]);
         }
     }
 
@@ -134,6 +136,57 @@ public class FFNN
                 }
             }
         }
+    }
+
+    public void load(string data)
+    {
+
+    }
+
+    public string save()
+    {
+        string s = "";
+
+        //save layer sizes
+        for (int i = 0; i < layerSizes.Length; i++)
+        {
+            s += layerSizes[i];
+            if(i != layerSizes.Length - 1)
+            {
+                s += ",";
+            }
+        }
+
+        s += '\n';
+        s += '\n';
+
+        //save weights
+        for (int i = 0; i < weights.Length; i++)
+        {
+            for (int j = 0; j < weights[i].RowCount; j++)
+            {
+                for (int k = 0; k < weights[i].ColumnCount; k++)
+                {
+                    s += weights[i][j, k] + " ";
+                }
+                s += '\n';
+            }
+            s += '\n';
+            s += '\n';
+        }
+
+        //save biases
+        for (int i = 0; i < biases.Length; i++)
+        {
+            for (int j = 0; j < biases[i].ColumnCount; j++)
+            {
+                s += biases[i][0, j] + " ";
+            }
+            s += '\n';
+            s += '\n';
+        }
+
+        return s;
     }
 
     public double ReLU(double x)

@@ -172,7 +172,7 @@ public abstract class Animal : MonoBehaviour
 
     protected void move(Vector3 direction)
     {
-        rb.AddForce(direction * speed * speedMult);
+        rb.AddRelativeForce(direction * speed * speedMult);
         hunger += direction.magnitude * movePenalty;
     }
 }

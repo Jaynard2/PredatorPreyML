@@ -130,10 +130,10 @@ MonoBehaviour:
   speedMult: 5
   speedPenalty: 0.1
   movePenalty: 0.01
-  fertilePenalty: 0.2
+  fertilePenalty: 1
   eatSpeedMult: 0.25
   litterVariance: 1
-  maxAge: 100
+  maxAge: 40
   softMaxSpeed: 5
   drag: 1.2
   bioMutRate: 0.5
