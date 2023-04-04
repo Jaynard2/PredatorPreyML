@@ -140,7 +140,52 @@ public class FFNN
 
     public void load(string data)
     {
+        string[] dataLines = data.Split('\n');
+        int currLineNum = 0;
+        string currLine = dataLines[currLineNum];
+        string[] currLineParts = currLine.Split(',');
 
+        layerSizes = new int[currLineParts.Length];
+        //load layerSizes
+        for (int i = 0; i < currLineParts.Length; i++)
+        {
+            layerSizes[i] = int.Parse(currLineParts[i]);
+        }
+        currLineNum += 2;
+
+        weights = new Matrix<double>[layerSizes.Length - 1];
+        biases = new Matrix<double>[layerSizes.Length - 1];
+
+        //load weights
+        for (int i = 0; i < weights.Length; i++)
+        {
+            weights[i] = Matrix<double>.Build.Dense(layerSizes[i], layerSizes[i + 1]);
+            for (int j = 0; j < layerSizes[i]; j++)
+            {
+                currLine = dataLines[currLineNum];
+                currLineParts = currLine.Split(',');
+                currLineNum++;
+                for (int k = 0; k < layerSizes[i + 1]; k++)
+                {
+                    weights[i][j, k] = double.Parse(currLineParts[k]);
+                }
+            }
+            currLineNum++;
+        }
+
+        //load biases
+        for (int i = 0; i < weights.Length; i++)
+        {
+            currLine = dataLines[currLineNum];
+            currLineParts = currLine.Split(',');
+            currLineNum++;
+            biases[i] = Matrix<double>.Build.Dense(1, layerSizes[i + 1]);
+            for (int j = 0; j < layerSizes[i+1]; j++)
+            {
+                biases[i][0,j] = double.Parse(currLineParts[j]);
+            }
+            currLineNum++;
+        }
     }
 
     public string save()
@@ -167,11 +212,14 @@ public class FFNN
             {
                 for (int k = 0; k < weights[i].ColumnCount; k++)
                 {
-                    s += weights[i][j, k] + " ";
+                    s += weights[i][j, k];
+                    if (k != weights[i].ColumnCount - 1)
+                    {
+                        s += ",";
+                    }
                 }
                 s += '\n';
             }
-            s += '\n';
             s += '\n';
         }
 
@@ -180,7 +228,11 @@ public class FFNN
         {
             for (int j = 0; j < biases[i].ColumnCount; j++)
             {
-                s += biases[i][0, j] + " ";
+                s += biases[i][0, j];
+                if (j != biases[i].ColumnCount - 1)
+                {
+                    s += ",";
+                }
             }
             s += '\n';
             s += '\n';

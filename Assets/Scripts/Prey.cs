@@ -7,6 +7,8 @@ public class Prey : Animal
 {
     [SerializeField]
     private float maxStationarySpeed;
+    [SerializeField]
+    private double[] brainOutputs;
     protected override void die()
     {
         Debug.Log("oof");
@@ -34,6 +36,7 @@ public class Prey : Animal
         inputs[0, 5] = transform.eulerAngles.y;
 
         Matrix<double> outputs = brain.forward(inputs);
+        brainOutputs = outputs.Row(0).ToArray();
 
         //rotate
         transform.eulerAngles += new Vector3(0, speed*(2*(float)outputs[0, 0]-1), 0);
@@ -41,7 +44,7 @@ public class Prey : Animal
         //movement between -1 and 1
         Vector3 movement = new Vector3((float)outputs[0, 1], 0f, 0f);
         movement *= 2;
-        movement += new Vector3(-1, -1, -1);
+        movement += new Vector3(-1, 0, 0);
         move(movement);
 
         //can't eat or reproduce while running

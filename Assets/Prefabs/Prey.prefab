@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90ca5324b8362334eb95de69f691646b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedMult: 5
+  speedMult: 10
   speedPenalty: 0.1
   movePenalty: 0.01
   fertilePenalty: 1
@@ -149,3 +149,4 @@ MonoBehaviour:
   forceRepro: 0
   babyPrefab: {fileID: 7240618842451507011}
   maxStationarySpeed: 2
+  brainOutputs: []
