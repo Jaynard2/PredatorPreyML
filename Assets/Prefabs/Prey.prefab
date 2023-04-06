@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7240618842451507013}
   m_Layer: 0
   m_Name: Prey
-  m_TagString: Untagged
+  m_TagString: prey
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -138,7 +138,7 @@ MonoBehaviour:
   drag: 1.2
   bioMutRate: 0.5
   brainMutRate: 0.002
-  layerSizes: 060000000500000004000000
+  layerSizes: 100000000600000004000000
   hunger: 0
   age: 0
   reproUrge: 0
@@ -150,3 +150,8 @@ MonoBehaviour:
   babyPrefab: {fileID: 7240618842451507011}
   maxStationarySpeed: 2
   brainOutputs: []
+  maxSight: 10
+  numRaycast: 5
+  viewAngle: 90
+  eatRange: 2
+  eatAmount: 10

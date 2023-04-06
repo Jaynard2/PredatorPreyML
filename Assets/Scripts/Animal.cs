@@ -58,6 +58,9 @@ public abstract class Animal : MonoBehaviour
     private GameObject babyPrefab;
     protected Rigidbody rb;
 
+    // Global tag map manager
+    protected TagMap tagMap;
+
     protected abstract void think();
     protected abstract void die();
     protected abstract void eat();
@@ -85,6 +88,7 @@ public abstract class Animal : MonoBehaviour
         rb.maxLinearVelocity = speed * softMaxSpeed;
 
         hasInit = true;
+        tagMap = TagMap.inst;
     }
 
 

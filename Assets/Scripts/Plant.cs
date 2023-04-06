@@ -16,7 +16,7 @@ public class Plant : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(currVal < maxVal)
+        if(currVal < maxVal && currVal > 0.0f)
         {
             currVal += growthRate * Time.deltaTime;
             currVal = Mathf.Min(currVal, maxVal);
@@ -24,7 +24,7 @@ public class Plant : MonoBehaviour
         }
     }
 
-    float eat(float quantity)
+    public float eat(float quantity)
     {
         float actualAmount = Mathf.Min(quantity, currVal);
         currVal -= actualAmount;
