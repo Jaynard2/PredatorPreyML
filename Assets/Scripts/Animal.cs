@@ -6,6 +6,8 @@ using MathNet.Numerics.Distributions;
 
 public abstract class Animal : MonoBehaviour
 {
+    private GameObject parentObject;
+
     //tuning parameters
     [SerializeField]
     private float speedMult;
@@ -64,6 +66,11 @@ public abstract class Animal : MonoBehaviour
     protected abstract void think();
     protected abstract void die();
     protected abstract void eat();
+
+    public void setParent(GameObject parent)
+    {
+        parentObject = parent;
+    }
 
     public void init(FFNN Brain = null, float startHunger = 0, float startReproUrge = 0, GameObject BabyPrefab = null, float startAge = 0)
     {
@@ -159,10 +166,11 @@ public abstract class Animal : MonoBehaviour
 
         for (int i = 0; i < numBabies; i++)
         {
-            Animal currBaby = Instantiate(babyPrefab, transform.position + new Vector3(0, 2 * i, 0), Quaternion.identity).GetComponent<Animal>();
+            Animal currBaby = Instantiate(babyPrefab, transform.position + new Vector3(0, 2 * i, 0), Quaternion.identity, parentObject.transform).GetComponent<Animal>();
             FFNN newBrain = new FFNN(brain);
             newBrain.mutate(1f, brainMutRate);
             currBaby.mutateVals();
+            currBaby.setParent(parentObject);
             currBaby.init(newBrain, 100 - sharedFood);
         }
 

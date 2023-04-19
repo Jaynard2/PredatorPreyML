@@ -16,6 +16,7 @@ public class PlantManager : MonoBehaviour
     void Start()
     {
         Spawner spawner = gameObject.AddComponent<Spawner>();
+        spawner.setup(gameObject);
         spawner.rectSpawn(plantPrefab, initialPop, spawnArea, spawnHeight);
     }
 

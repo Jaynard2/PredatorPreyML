@@ -659,7 +659,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnArea: {x: 280, y: 280}
   spawnHeight: 0
-  initialPop: 30
+  initialPop: 300
   plantPrefab: {fileID: 1830064875676889123, guid: 9dafecc85cc46b54087550d83751dbae, type: 3}
 --- !u!4 &1366313489
 Transform:
@@ -899,9 +899,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4275cd7a173db7448a4bfa441d6ad72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnRadius: 20
+  spawnRadius: 140
   spawnHeight: 1
-  initialPop: 10
+  initialPop: 100
   preyPrefab: {fileID: 7240618842451507011, guid: b571cd557ef061c4fad8aa1472f44ac9, type: 3}
 --- !u!4 &1823945116
 Transform:
