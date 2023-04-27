@@ -35,11 +35,14 @@ public class PopulationManager : MonoBehaviour
     void Update()
     {
         int bestIndex = -1;
-        bool allAlive = false;
         for(int i = 0; i < transform.childCount; i++) 
         {
             var child = transform.GetChild(i).GetComponent<Animal>();
-            allAlive = allAlive || child.isActiveAndEnabled;
+            if(!child.isActiveAndEnabled)
+            {
+                Destroy(child.gameObject);
+                continue;
+            }
             if (child.score > bestScore)
             {
                 bestScore = child.score;
@@ -49,7 +52,7 @@ public class PopulationManager : MonoBehaviour
         if(bestIndex != -1)
             bestBrain = transform.GetChild(bestIndex).GetComponent<Animal>().brain.save();
 
-        if (transform.childCount == 0 || !allAlive)
+        if (transform.childCount == 0)
         {
             for(int i = 0; i < transform.childCount; i++)
                 Destroy(transform.GetChild(i).gameObject);

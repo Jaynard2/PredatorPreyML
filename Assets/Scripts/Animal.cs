@@ -169,6 +169,7 @@ public abstract class Animal : MonoBehaviour
         float sharedFood = 100 - hunger;
         sharedFood = sharedFood / (numBabies + 2);
         hunger = 100 - (sharedFood * 2);
+        score += numBabies * 5;
 
         for (int i = 0; i < numBabies; i++)
         {
