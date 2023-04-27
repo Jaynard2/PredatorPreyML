@@ -31,8 +31,11 @@ public class Spawner: MonoBehaviour
             Vector2 spawnPos = new Vector2(Random.Range(0, spawnRadius), Random.Range(0, 2 * Mathf.PI));
             spawnPos = new Vector2(spawnPos.x * Mathf.Cos(spawnPos.y), spawnPos.x * Mathf.Sin(spawnPos.y));
             bool isAnimal = Instantiate(prefab, transform.position + new Vector3(spawnPos.x, spawnHeight, spawnPos.y), Quaternion.identity, _par.transform).TryGetComponent(out Animal animal);
-            if(isAnimal)
+            if (isAnimal)
+            {
                 animal.setParent(_par);
+                animal.init(global::FFNN.load(FFNN));
+            }
         }
         transform.rotation = Quaternion.identity;
 

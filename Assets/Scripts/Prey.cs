@@ -21,7 +21,6 @@ public class Prey : Animal
     private float eatRange;
     protected override void die()
     {
-        Debug.Log("oof");
         Destroy(this.gameObject);
     }
 

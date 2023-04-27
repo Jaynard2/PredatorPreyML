@@ -34,6 +34,9 @@ public abstract class Animal : MonoBehaviour
     [SerializeField]
     private int[] layerSizes;
 
+    public float score { get; private set; }
+    private int scoreBias;
+
     //biology components
     [SerializeField]
     protected float hunger;
@@ -54,7 +57,7 @@ public abstract class Animal : MonoBehaviour
 
     [SerializeField]
     private bool forceRepro;
-    protected FFNN brain;
+    public FFNN brain { get; protected set; }
     private bool hasInit = false;
     [SerializeField]
     private GameObject babyPrefab;
@@ -72,11 +75,13 @@ public abstract class Animal : MonoBehaviour
         parentObject = parent;
     }
 
-    public void init(FFNN Brain = null, float startHunger = 0, float startReproUrge = 0, GameObject BabyPrefab = null, float startAge = 0)
+    public void init(FFNN Brain = null,  float startHunger = 0, float startScore = 0, float startReproUrge = 0, GameObject BabyPrefab = null, float startAge = 0)
     {
         hunger = startHunger;
         age = startAge;
         reproUrge = startReproUrge;
+        score = startScore;
+        scoreBias = (int)startScore;
         if (BabyPrefab != null)
         {
             babyPrefab = BabyPrefab;
@@ -90,7 +95,7 @@ public abstract class Animal : MonoBehaviour
         {
             brain = new FFNN(layerSizes);
         }
-
+        
         rb = GetComponent<Rigidbody>();
         rb.maxLinearVelocity = speed * softMaxSpeed;
 
@@ -136,6 +141,7 @@ public abstract class Animal : MonoBehaviour
     {
         hunger += Time.deltaTime * calcHunger();
         age += Time.deltaTime;
+        score += 10;
         if (age > minReproAge)
         {
             reproUrge += Time.deltaTime * dReproUrge;
@@ -171,7 +177,7 @@ public abstract class Animal : MonoBehaviour
             newBrain.mutate(1f, brainMutRate);
             currBaby.mutateVals();
             currBaby.setParent(parentObject);
-            currBaby.init(newBrain, 100 - sharedFood);
+            currBaby.init(newBrain, 100 - sharedFood, scoreBias + 1);
         }
 
         reproUrge = 0;

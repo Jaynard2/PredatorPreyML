@@ -7,8 +7,8 @@ using UnityEngine;
 
 public class FFNN
 {
-    private Matrix<double>[] weights;
-    private Matrix<double>[] biases;
+    private Matrix<double>[] weights { set;  get; }
+    private Matrix<double>[] biases { set; get; }
     private int[] layerSizes;
 
     public FFNN(int[] LayerSizes)
@@ -138,14 +138,14 @@ public class FFNN
         }
     }
 
-    public void load(string data)
+    public static FFNN load(string data)
     {
         string[] dataLines = data.Split('\n');
         int currLineNum = 0;
         string currLine = dataLines[currLineNum];
         string[] currLineParts = currLine.Split(',');
 
-        layerSizes = new int[currLineParts.Length];
+        int[] layerSizes = new int[currLineParts.Length];
         //load layerSizes
         for (int i = 0; i < currLineParts.Length; i++)
         {
@@ -153,8 +153,8 @@ public class FFNN
         }
         currLineNum += 2;
 
-        weights = new Matrix<double>[layerSizes.Length - 1];
-        biases = new Matrix<double>[layerSizes.Length - 1];
+        Matrix<double>[] weights = new Matrix<double>[layerSizes.Length - 1];
+        Matrix<double>[] biases = new Matrix<double>[layerSizes.Length - 1];
 
         //load weights
         for (int i = 0; i < weights.Length; i++)
@@ -186,6 +186,11 @@ public class FFNN
             }
             currLineNum++;
         }
+
+        FFNN ffnn = new FFNN(layerSizes);
+        ffnn.weights = weights;
+        ffnn.biases = biases;
+        return ffnn;
     }
 
     public string save()
